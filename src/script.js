@@ -40,7 +40,8 @@ class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      display: "Samples Ready",
+      volume: 1
     }
     this.handleClick = this.handleClick.bind(this);
   }
