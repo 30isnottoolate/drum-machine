@@ -47,10 +47,6 @@ class DrumMachine extends React.Component {
   }
 
   handleClick(e) {
-    console.log("click");
-  }
-
-  handleClick(e) {
     trigger = e.target.innerText;
     currentSample = document.getElementById(trigger);
     currentSample.currentTime = 0;
