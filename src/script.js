@@ -55,6 +55,10 @@ class DrumMachine extends React.Component {
     currentSample = document.getElementById(trigger);
     currentSample.currentTime = 0;
     currentSample.play();
+
+    this.setState({
+      display: textToDisplay[trigger]
+    });
   }
 
   render() {
