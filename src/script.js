@@ -44,6 +44,29 @@ class DrumMachine extends React.Component {
       volume: 1
     }
     this.handleClick = this.handleClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+  
+  handleKeyPress(e) {
+    trigger = e.key.toUpperCase();
+    
+    if (textToDisplay.hasOwnProperty(trigger)) {
+      currentSample = document.getElementById(trigger);
+      currentSample.currentTime = 0;
+      currentSample.play();
+      
+      this.setState({
+        display: textToDisplay[trigger]
+      });
+    }
   }
 
   handleClick(e) {
