@@ -94,7 +94,6 @@ class DrumMachine extends React.Component {
           <p id="model-name">SuperSonic Drum 2000</p>
         </div>
         <Display text={this.state.display}/>
-        <div id="display"><p id="displayText"></p></div> 
         <div id="buttons">
           <button id="kick" className="drum-pad" onClick={this.handleClick}>Q
             <ReactAudioPlayer id="Q" className="clip" src={sampleSource.kick} volume={parseFloat(this.state.volume)} />
