@@ -61,7 +61,7 @@ class DrumMachine extends React.Component {
     
     if (textToDisplay.hasOwnProperty(trigger)) {
       currentSample = document.getElementById(trigger);
-      currentSample.currentTime = 0;
+      currentSample.load();
       currentSample.play();
       
       this.setState({
@@ -73,7 +73,7 @@ class DrumMachine extends React.Component {
   handleClick(e) {
     trigger = e.target.innerText;
     currentSample = document.getElementById(trigger);
-    currentSample.currentTime = 0;
+    currentSample.load();
     currentSample.play();
 
     this.setState({
