@@ -50,6 +50,16 @@ class DrumMachine extends React.Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
+    /*
+    document.getElementById("Q").load();
+    document.getElementById("W").load();
+    document.getElementById("E").load();
+    document.getElementById("A").load();
+    document.getElementById("S").load();
+    document.getElementById("D").load();
+    document.getElementById("Z").load();
+    document.getElementById("X").load();
+    document.getElementById("C").load();*/
   }
   
   componentWillUnmount() {
@@ -61,7 +71,7 @@ class DrumMachine extends React.Component {
     
     if (textToDisplay.hasOwnProperty(trigger)) {
       currentSample = document.getElementById(trigger);
-      currentSample.load();
+      currentSample.currentTime = 0;
       currentSample.play();
       
       this.setState({
@@ -73,7 +83,7 @@ class DrumMachine extends React.Component {
   handleClick(e) {
     trigger = e.target.innerText;
     currentSample = document.getElementById(trigger);
-    currentSample.load();
+    currentSample.currentTime = 0;
     currentSample.play();
 
     this.setState({
