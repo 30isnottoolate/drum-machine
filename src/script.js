@@ -3,31 +3,43 @@ import ReactDOM from 'react-dom/client';
 import ReactAudioPlayer from 'react-audio-player';
 import './app_styles.css';
 
-let currentSample; //Triggered audio
-let trigger; //Key press or click which triggered the audio
-
-const sampleSource = {
-  "kick": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/30[kb]BDRUM13.wav.mp3",
-  "snare": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/35[kb]SNARE2.wav.mp3",
-  "rimshot": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/18[kb]RIMSHOT1.wav.mp3",
-  "hhclosed": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/16[kb]HHCLOSE2.wav.mp3",
-  "hhopen": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/35[kb]HHOPEN1.wav.mp3",
-  "tom": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/29[kb]TOMHI5.wav.mp3",
-  "crash": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/106[kb]CRASH.wav.mp3",
-  "china": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/188[kb]CHINA1.wav.mp3",
-  "cowbell": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/12[kb]COWBELL1.wav.mp3"
-}
-
-const textToDisplay = {
-  "Q": "Kick",
-  "W": "Snare",
-  "E": "Rimshot",
-  "A": "Closed Hihat",
-  "S": "Open Hihat",
-  "D": "Tom",
-  "Z": "Crash",
-  "X": "China",
-  "C": "Cowbell"
+const samples = {
+  "Q": {
+    "display": "Kick",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/30[kb]BDRUM13.wav.mp3"
+  },
+  "W": {
+    "display": "Snare",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/35[kb]SNARE2.wav.mp3"
+  },
+  "E": {
+    "display": "Rimshot",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/18[kb]RIMSHOT1.wav.mp3"
+  },
+  "A": {
+    "display": "Closed Hihat",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/16[kb]HHCLOSE2.wav.mp3"
+  },
+  "S": {
+    "display": "Open Hihat",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/35[kb]HHOPEN1.wav.mp3"
+  },
+  "D": {
+    "display": "Tom",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/29[kb]TOMHI5.wav.mp3"
+  },
+  "Z": {
+    "display": "Crash",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/106[kb]CRASH.wav.mp3"
+  },
+  "X": {
+    "display": "China",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/188[kb]CHINA1.wav.mp3"
+  },
+  "C": {
+    "display": "Cowbell",
+    "src": "https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/REAL%20LIVE%20KITS/Big%20and%20Heavy%20Real%20Drum%20Kit/12[kb]COWBELL1.wav.mp3"
+  },
 }
 
 const Display = (props) => (
@@ -50,16 +62,10 @@ class DrumMachine extends React.Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
-    /*
-    document.getElementById("Q").load();
-    document.getElementById("W").load();
-    document.getElementById("E").load();
-    document.getElementById("A").load();
-    document.getElementById("S").load();
-    document.getElementById("D").load();
-    document.getElementById("Z").load();
-    document.getElementById("X").load();
-    document.getElementById("C").load();*/
+
+    for (const item in samples) {
+      document.getElementById(item).load();
+    }
   }
   
   componentWillUnmount() {
@@ -67,27 +73,27 @@ class DrumMachine extends React.Component {
   }
   
   handleKeyPress(e) {
-    trigger = e.key.toUpperCase();
+    let trigger = e.key.toUpperCase();
     
-    if (textToDisplay.hasOwnProperty(trigger)) {
-      currentSample = document.getElementById(trigger);
+    if (samples.hasOwnProperty(trigger)) {
+      let currentSample = document.getElementById(trigger);
       currentSample.currentTime = 0;
       currentSample.play();
       
       this.setState({
-        display: textToDisplay[trigger]
+        display: samples[trigger].display
       });
     }
   }
 
   handleClick(e) {
-    trigger = e.target.innerText;
-    currentSample = document.getElementById(trigger);
+    let trigger = e.target.innerText;
+    let currentSample = document.getElementById(trigger);
     currentSample.currentTime = 0;
     currentSample.play();
 
     this.setState({
-      display: textToDisplay[trigger]
+      display: samples[trigger].display
     });
   }
 
@@ -106,31 +112,31 @@ class DrumMachine extends React.Component {
         <Display text={this.state.display}/>
         <div id="buttons">
           <button id="kick" className="drum-pad" onClick={this.handleClick}>Q
-            <ReactAudioPlayer id="Q" className="clip" src={sampleSource.kick} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="Q" className="clip" src={samples["Q"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="snare" className="drum-pad" onClick={this.handleClick}>W
-            <ReactAudioPlayer id="W" className="clip" src={sampleSource.snare} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="W" className="clip" src={samples["W"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="rimshot" className="drum-pad" onClick={this.handleClick}>E
-            <ReactAudioPlayer id="E" className="clip" src={sampleSource.rimshot} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="E" className="clip" src={samples["E"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="hhclosed" className="drum-pad" onClick={this.handleClick}>A
-            <ReactAudioPlayer id="A" className="clip" src={sampleSource.hhclosed} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="A" className="clip" src={samples["A"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="hhopen" className="drum-pad" onClick={this.handleClick}>S
-            <ReactAudioPlayer id="S" className="clip" src={sampleSource.hhopen} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="S" className="clip" src={samples["S"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="tom" className="drum-pad" onClick={this.handleClick}>D
-            <ReactAudioPlayer id="D" className="clip" src={sampleSource.tom} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="D" className="clip" src={samples["D"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="crash" className="drum-pad" onClick={this.handleClick}>Z
-            <ReactAudioPlayer id="Z" className="clip" src={sampleSource.crash} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="Z" className="clip" src={samples["Z"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="china" className="drum-pad" onClick={this.handleClick}>X
-            <ReactAudioPlayer id="X" className="clip" src={sampleSource.china} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="X" className="clip" src={samples["X"].src} volume={parseFloat(this.state.volume)} />
           </button>
           <button id="cowbell" className="drum-pad" onClick={this.handleClick}>C
-            <ReactAudioPlayer id="C" className="clip" src={sampleSource.cowbell} volume={parseFloat(this.state.volume)} />
+            <ReactAudioPlayer id="C" className="clip" src={samples["C"].src} volume={parseFloat(this.state.volume)} />
           </button>
         </div>
         <div id="fader-container">
