@@ -84,7 +84,7 @@ class DrumMachine extends React.Component {
     document.addEventListener("keydown", this.handleKeyPress);
 
     for (const item in samples) {
-      document.getElementById(item).load();
+      this[samples[item].id].audioEl.current.load();
     }
   }
   
