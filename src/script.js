@@ -96,7 +96,7 @@ class DrumMachine extends React.Component {
     let trigger = e.key.toUpperCase();
     
     if (samples.hasOwnProperty(trigger)) {
-      let currentSample = document.getElementById(trigger);
+      let currentSample = this[samples[trigger].id].audioEl.current;
       currentSample.currentTime = 0;
       currentSample.play();
       
