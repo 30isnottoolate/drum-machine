@@ -1,7 +1,6 @@
 import React, { createRef } from 'react';
-import ReactDOM from 'react-dom/client';
 import ReactAudioPlayer from 'react-audio-player';
-import './app_styles.css';
+import './DrumMachine.css';
 
 const samples = {
   "Q": {
@@ -170,5 +169,4 @@ class DrumMachine extends React.Component {
   }
 }
 
-const container = ReactDOM.createRoot(document.getElementById('app-container'));
-container.render(<DrumMachine/>);
+export default DrumMachine;
